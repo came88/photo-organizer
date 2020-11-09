@@ -42,7 +42,7 @@ func GetDropboxFolder() (string, error) {
 	// cerco il file info.json in ~/.dropbox
 	usr, err := user.Current()
 	if err != nil {
-		return "", errors.New("Unable to find Dropbox folder")
+		return "", errors.New("unable to find Dropbox folder")
 	}
 	nomefile := usr.HomeDir + ".dropbox/info.json"
 	if fileExists(nomefile) {
@@ -51,7 +51,7 @@ func GetDropboxFolder() (string, error) {
 			return folder, nil
 		}
 	}
-	return "", errors.New("Unable to find Dropbox folder")
+	return "", errors.New("unable to find Dropbox folder")
 }
 
 // fileExists checks if a file exists and is not a directory before we
@@ -81,7 +81,7 @@ func readJSON(nomefile string) (string, error) {
 	}
 
 	var result map[string]interface{}
-	err = json.Unmarshal([]byte(byteValue), &result)
+	err = json.Unmarshal(byteValue, &result)
 	if err != nil {
 		return "", err
 	}
@@ -89,7 +89,7 @@ func readJSON(nomefile string) (string, error) {
 	personal, ok := result["personal"].(map[string]interface{})
 
 	if ok != true {
-		return "", errors.New("Invalid json format")
+		return "", errors.New("invalid json format")
 	}
 
 	var path string
@@ -97,7 +97,7 @@ func readJSON(nomefile string) (string, error) {
 	path, ok = personal["path"].(string)
 
 	if ok != true {
-		return "", errors.New("Invalid json format")
+		return "", errors.New("invalid json format")
 	}
 
 	return path, nil
