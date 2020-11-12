@@ -17,10 +17,11 @@ func main() {
 	fmt.Println(path)
 
 	path = path + string(os.PathSeparator) + "Camera Uploads"
+
 	photoList, err := finder.FindFiles(path)
 	if err != nil {
-		fmt.Println(err)
-		panic(err)
+		fmt.Println("Error: ", err)
+		os.Exit(1)
 	}
 
 	allFiles := group.Group(photoList)
