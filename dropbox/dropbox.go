@@ -3,10 +3,10 @@ package dropbox
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"os/user"
+	"photoorganizer/model"
 	"runtime"
 )
 
@@ -69,7 +69,7 @@ func readJSON(nomefile string) (string, error) {
 	jsonFile, err := os.Open(nomefile)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		fmt.Println(err)
+		model.Logger.Println(err)
 		return "", err
 	}
 	// defer the closing of our jsonFile so that we can parse it later on
