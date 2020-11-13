@@ -1,7 +1,7 @@
 package group
 
 import (
-	. "photoorganizer/model"
+	. "github.com/came88/photo-organizer/model"
 	"time"
 )
 

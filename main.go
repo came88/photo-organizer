@@ -1,11 +1,11 @@
 package main
 
 import (
+	. "github.com/came88/photo-organizer/dropbox"
+	. "github.com/came88/photo-organizer/finder"
+	. "github.com/came88/photo-organizer/group"
+	. "github.com/came88/photo-organizer/model"
 	"os"
-	. "photoorganizer/dropbox"
-	. "photoorganizer/finder"
-	. "photoorganizer/group"
-	. "photoorganizer/model"
 )
 
 func main() {

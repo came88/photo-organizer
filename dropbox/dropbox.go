@@ -3,10 +3,10 @@ package dropbox
 import (
 	"encoding/json"
 	"errors"
+	. "github.com/came88/photo-organizer/model"
 	"io/ioutil"
 	"os"
 	"os/user"
-	. "photoorganizer/model"
 	"runtime"
 )
 

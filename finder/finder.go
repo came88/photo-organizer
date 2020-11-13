@@ -1,8 +1,8 @@
 package finder
 
 import (
+	. "github.com/came88/photo-organizer/model"
 	"io/ioutil"
-	. "photoorganizer/model"
 	"sort"
 	"time"
 )
