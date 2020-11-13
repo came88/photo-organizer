@@ -1,7 +1,7 @@
 package group
 
 import (
-	"photoorganizer/model"
+	. "photoorganizer/model"
 	"time"
 )
 
@@ -9,8 +9,8 @@ func midnight(date time.Time) time.Time {
 	return time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, time.Local)
 }
 
-func Group(photoList []model.Image) map[time.Time][]model.Image {
-	allFiles := make(map[time.Time][]model.Image)
+func Group(photoList []Image) map[time.Time][]Image {
+	allFiles := make(map[time.Time][]Image)
 
 	for _, image := range photoList {
 		currentList := allFiles[midnight(image.Time)]

@@ -2,35 +2,35 @@ package main
 
 import (
 	"os"
-	"photoorganizer/dropbox"
-	"photoorganizer/finder"
-	"photoorganizer/group"
-	"photoorganizer/model"
+	. "photoorganizer/dropbox"
+	. "photoorganizer/finder"
+	. "photoorganizer/group"
+	. "photoorganizer/model"
 )
 
 func main() {
 
-	path, err := dropbox.GetDropboxFolder()
+	path, err := GetDropboxFolder()
 	if err != nil {
-		model.Logger.Println("Error: ", err)
+		Logger.Println("Error: ", err)
 		os.Exit(1)
 	}
-	model.Logger.Println(path)
+	Logger.Println(path)
 
 	path = path + string(os.PathSeparator) + "Camera Uploads"
 
-	photoList, err := finder.FindFiles(path)
+	photoList, err := FindFiles(path)
 	if err != nil {
-		model.Logger.Println("Error: ", err)
+		Logger.Println("Error: ", err)
 		os.Exit(1)
 	}
 
-	allFiles := group.Group(photoList)
+	allFiles := Group(photoList)
 
 	for key, value := range allFiles {
-		model.Logger.Println(key)
+		Logger.Println(key)
 		for _, e := range value {
-			model.Logger.Println(" ", e)
+			Logger.Println(" ", e)
 		}
 	}
 }
