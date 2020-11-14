@@ -1,23 +1,22 @@
 package finder
 
 import (
-	. "github.com/came88/photo-organizer/model"
 	"io/ioutil"
-	"sort"
 	"time"
+
+	. "github.com/came88/photo-organizer/model"
 )
 
-// TODO la ricerca fa fatta ricorsiva?
 func FindFiles(path string) ([]Image, error) {
 	files, err := ioutil.ReadDir(path)
 	if err != nil {
 		return nil, err
 	}
 
-	// deve rappresentare la data "02/Jan/2006:15:04:05
+	// deve rappresentare il formato desiderato per la data "Mon Jan 2 15:04:05 -0700 MST 2006"
 	const dateLayout = "2006-01-02 15.04.05"
 
-	photoList := make([]Image, 1)
+	photoList := make([]Image, 0)
 
 	for _, file := range files {
 		if file.IsDir() || len(file.Name()) < len(dateLayout) {
@@ -35,10 +34,6 @@ func FindFiles(path string) ([]Image, error) {
 			Logger.Println(err)
 		}
 	}
-
-	sort.SliceStable(photoList, func(i, j int) bool {
-		return photoList[i].FileName < photoList[j].FileName
-	})
 
 	return photoList, nil
 }

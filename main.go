@@ -1,11 +1,12 @@
 package main
 
 import (
+	"os"
+
 	. "github.com/came88/photo-organizer/dropbox"
 	. "github.com/came88/photo-organizer/finder"
 	. "github.com/came88/photo-organizer/group"
 	. "github.com/came88/photo-organizer/model"
-	"os"
 )
 
 func main() {
@@ -25,8 +26,20 @@ func main() {
 		os.Exit(1)
 	}
 
-	allFiles := Group(photoList)
+	allFiles := By24Hour(photoList)
 
+	for key, value := range allFiles {
+		Logger.Println(key)
+		for _, e := range value {
+			Logger.Println(" ", e)
+		}
+		if len(value) < 3 {
+			Logger.Println("Non faccio nulla con questo gruppo, ha troppi pochi elementi")
+			delete(allFiles, key)
+		}
+	}
+
+	Logger.Println("---Risultato finale")
 	for key, value := range allFiles {
 		Logger.Println(key)
 		for _, e := range value {
