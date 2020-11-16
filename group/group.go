@@ -43,7 +43,7 @@ func By24Hour(photoList []Image) map[time.Time][]Image {
 	day, _ := time.ParseDuration("24h")
 
 	for {
-		Logger.Println(len(photoList))
+		Logger.Println("len(photoList) = ", len(photoList))
 		if len(photoList) == 0 {
 			break
 		}
@@ -51,17 +51,19 @@ func By24Hour(photoList []Image) map[time.Time][]Image {
 		timeStart := photoList[0].Time
 		currentList := make([]Image, 0)
 		currentList = append(currentList, photoList[0])
-		photoList = photoList[1:]
-		for i, currentImage := range photoList {
-			Logger.Println(i, currentImage)
-			if currentImage.Time.Sub(timeStart) <= day {
+		for i, currentImage := range photoList[1:] {
+			Logger.Println(i+1, currentImage)
+			difference := currentImage.Time.Sub(timeStart)
+			Logger.Println("difference: ", difference)
+			if difference <= day {
 				currentList = append(currentList, currentImage)
 			} else {
-				allFiles[midnight(timeStart)] = currentList
-				photoList = photoList[i:]
 				break
 			}
 		}
+		photoList = photoList[len(currentList):]
+		Logger.Println("aggiungo ", currentList)
+		allFiles[midnight(timeStart)] = currentList
 	}
 
 	return allFiles
