@@ -28,6 +28,13 @@ func main() {
 
 	allFiles := By24Hour(photoList)
 
+	count := 0
+	for _, value := range allFiles {
+		count += len(value)
+	}
+	Logger.Println("len(photoList) = ", len(photoList))
+	Logger.Println("len(value allFiles) = ", count)
+
 	for key, value := range allFiles {
 		Logger.Println(key)
 		for _, e := range value {
@@ -44,6 +51,28 @@ func main() {
 		Logger.Println(key)
 		for _, e := range value {
 			Logger.Println(" ", e)
+		}
+	}
+
+	const folderFormat = "2006_01_02"
+	Logger.Println("---Inizio a spostare i file")
+	for key, value := range allFiles {
+		folderName := path + string(os.PathSeparator) + key.Format(folderFormat)
+		Logger.Println("Creo la cartella se non esiste", folderName)
+		err := os.MkdirAll(folderName, 0o750)
+		if err != nil {
+			Logger.Println(err)
+			Logger.Println("Ignoro questo gruppo")
+			continue
+		}
+		for _, image := range value {
+			oldPath := image.BasePath + string(os.PathSeparator) + image.FileName
+			newPath := folderName + string(os.PathSeparator) + image.FileName
+			Logger.Println("Sposto il file ", oldPath, newPath)
+			err := os.Rename(oldPath, newPath)
+			if err != nil {
+				Logger.Println(err)
+			}
 		}
 	}
 }
