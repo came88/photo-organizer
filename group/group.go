@@ -32,6 +32,8 @@ func BySolarDay(photoList []Image) map[time.Time][]Image {
 }
 
 // By24Hour raggruppa per periodi di 24 ore, partendo dalla prima occorrenza
+// fino al massimo alle ore 6 del giorno dopo se non ci sono periodi senza file
+// di più di 3 ore
 func By24Hour(photoList []Image) map[time.Time][]Image {
 	allFiles := make(map[time.Time][]Image)
 
@@ -41,6 +43,7 @@ func By24Hour(photoList []Image) map[time.Time][]Image {
 	})
 
 	day, _ := time.ParseDuration("24h")
+	maxEmpty, _ := time.ParseDuration("3h")
 
 	for {
 		Logger.Println("len(photoList) = ", len(photoList))
@@ -49,6 +52,7 @@ func By24Hour(photoList []Image) map[time.Time][]Image {
 		}
 		Logger.Println(photoList[0])
 		timeStart := photoList[0].Time
+		currentDay := midnight(timeStart)
 		currentList := make([]Image, 0)
 		currentList = append(currentList, photoList[0])
 		for i, currentImage := range photoList[1:] {
@@ -56,6 +60,17 @@ func By24Hour(photoList []Image) map[time.Time][]Image {
 			difference := currentImage.Time.Sub(timeStart)
 			Logger.Println("difference: ", difference)
 			if difference <= day {
+				if midnight(currentImage.Time) != currentDay {
+					if currentImage.Time.Hour() >= 6 {
+						// non aggiungo se l'orario è successivo alle 6 di mattino
+						break
+					}
+					lastDifference := currentImage.Time.Sub(currentList[len(currentList)-1].Time)
+					if lastDifference > maxEmpty {
+						break
+					}
+
+				}
 				currentList = append(currentList, currentImage)
 			} else {
 				break
